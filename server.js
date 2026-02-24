@@ -3,8 +3,11 @@ import mercadopago from "mercadopago";
 import bodyParser from "body-parser";
 import admin from "firebase-admin";
 import fs from "fs";
+import cors from "cors";
 
 const app = express();
+
+app.use(cors());
 app.use(bodyParser.json());
 
 // 🔥 MERCADO PAGO
