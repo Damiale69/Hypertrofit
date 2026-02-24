@@ -2,17 +2,20 @@ import express from "express";
 import mercadopago from "mercadopago";
 import bodyParser from "body-parser";
 import admin from "firebase-admin";
+import fs from "fs";
 
 const app = express();
 app.use(bodyParser.json());
 
 // 🔥 MERCADO PAGO
 mercadopago.configure({
-  access_token: "TU_ACCESS_TOKEN"
+  access_token: "TEST-8209367707264568-022415-486e204eddf7708fbbd815bba1c89fff-110739325"
 });
 
 // 🔥 FIREBASE ADMIN
-import serviceAccount from "./serviceAccountKey.json" assert { type: "json" };
+const serviceAccount = JSON.parse(
+  fs.readFileSync("./serviceAccountKey.json", "utf8")
+);
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
@@ -36,9 +39,9 @@ app.post("/crear-pago", async (req, res) => {
       }
     ],
     metadata: {
-      uid: uid
+      uid:uid
     },
-    notification_url: "https://TU-APP.onrender.com/webhook"
+    notification_url: "https://hypertrofit.onrender.com/webhook"
   };
 
   const response = await mercadopago.preferences.create(preference);
@@ -83,7 +86,8 @@ app.post("/webhook", async (req, res) => {
 });
 
 
-app.listen(3000, () => {
-  console.log("🚀 Server listo");
-});
+const PORT = process.env.PORT || 3000;
 
+app.listen(PORT, () => {
+  console.log("🚀 Server listo en puerto " + PORT);
+});
