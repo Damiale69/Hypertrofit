@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>HypertroFit PRO</title>
+
+  
+
+<style>
+
+body {
+  background: linear-gradient(135deg, #0f172a, #020617);
+  color: white;
+  font-family: 'inter', sans-serif;
+  margin: 0;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.card {
+  background: rgba(255,255,255,0.05);
+  padding: 20px;
+  border-radius: 20px;
+  margin: 16px 0;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+button {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  border: none;
+  padding: 14px;
+  border-radius: 14px;
+  box-shadow: 0 4px 20px rgba(34,197,94,0.4);
+  color: white;
+  font-weight: bold;
+  width: 100%;
+  margin-top: 12px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+input, select {
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  width: 100%;
+  background: rgba(255,255,255,0.08);
+  color: white;
+}
+
+.grid {
+  display: grid;
+  gap: 12px;
+}
+
+.stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stat h3 {
+  color: #22c55e;
+}
+
+#rutina {
+  margin-top: 10px;
+  font-size: 14px;
+}
+.app {
+  
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.grid-2 > div {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+canvas {
+  background: rgba(255,255,255,0.05);
+  border-radius: 16px;
+  padding: 10px;
+  width: 100% !important;
+  height: 250px !important;
+}
+
+.card {
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+}
+
+.paywall {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(2,6,23,0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.paywall-content {
+  background: linear-gradient(135deg, #0f172a, #020617);
+  padding: 30px;
+  border-radius: 20px;
+  width: 320px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  animation: pop 0.3s ease;
+}
+
+.paywall h2 {
+  margin-bottom: 10px;
+}
+
+.paywall ul {
+  text-align: left;
+  margin: 20px 0;
+}
+
+.paywall li {
+  margin: 8px 0;
+}
+
+.paywall button {
+  margin-top: 10px;
+}
+
+.close {
+  background: transparent;
+  border: 1px solid #444;
+}
+
+.hidden {
+  display: none;
+}
+
+@keyframes pop {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+
+</style>
+
+</head>
+
+<body>
+
+<div class="app">
+
+<h1>HYPERTROFIT PRO 💪</h1>
+
+<div class="grid-2">
+
+  <!-- IZQUIERDA -->
+  <div>
+
+    <div class="card">
+      <h2>Registrar</h2>
+
+      <div class="grid">
+        <select id="ejercicio">
+          <option>Press Banca</option>
+          <option>Sentadilla</option>
+          <option>Peso Muerto</option>
+        </select>
+
+        <input id="series" type="number" placeholder="Series">
+        <input id="reps" type="number" placeholder="Reps">
+        <input id="peso" type="number" placeholder="Peso">
+      </div>
+
+      <button id="btnGuardar">💾 Guardar</button>
+    </div>
+
+    <div class="card">
+      <h2>Stats</h2>
+      <div class="stat"><h3 id="volumen">0</h3><p>Volumen</p></div>
+      <div class="stat"><h3 id="entrenos">0</h3><p>Entrenos</p></div>
+      <div class="stat"><h3 id="record">0</h3><p>PR</p></div>
+    </div>
+
+    <div class="card">
+      <h2>Historial</h2>
+      <div id="historial"></div>
+    </div>
+
+  </div>
+
+  <!-- DERECHA -->
+  <div>
+
+    <canvas id="grafico"></canvas>
+
+    <div class="card">
+      <h2>🏆 PR</h2>
+      <div id="pr-list"></div>
+    </div>
+
+    <div class="card">
+      <h3>Progreso</h3>
+      <p id="progreso">...</p>
+    </div>
+
+    <div class="card">
+      <h2>🔥 Rutina Inteligente</h2>
+      <button id="btnRutina">Generar Rutina</button>
+      <div id="rutina"></div>
+    </div>
+
+  </div>
+
+</div>
+
+<div id="paywall" class="paywall hidden">
+  <div class="paywall-content">
+
+    <h2>💎 HypertroFit PRO</h2>
+    <p>Desbloqueá todo tu potencial</p>
+
+    <ul>
+      <li>🔥 Rutinas inteligentes</li>
+      <li>📈 Progreso avanzado</li>
+      <li>🏆 Seguimiento de PR</li>
+      <li>☁️ Guardado en la nube</li>
+    </ul>
+
+    <button onclick="comprarPro()">🚀 Activar PRO</button>
+    <button class="close" onclick="cerrarPaywall()">Cancelar</button>
+
+  </div>
+</div>
+
+<button id="btnPro">💳 Hacete PRO</button>
+
+<!-- FIREBASE + APP -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+import { doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCq-ONF8hATLHGJn3tOCSE7UKYQYeK6eBc",
+  authDomain: "hypertrofit-9f4e1.firebaseapp.com",
+  projectId: "hypertrofit-9f4e1",
+  storageBucket: "hypertrofit-9f4e1.firebasestorage.app",
+  messagingSenderId: "900770335580",
+  appId: "1:900770335580:web:bbfe2d1a5143fff9330f99",
+  measurementId: "G-DNZVBNWE70"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+let entrenamientos = [];
+let chart;
+
+// LOGIN
+signInAnonymously(auth)
+  .then(async () => {
+
+    console.log("🔥 Firebase OK");
+
+    const user = auth.currentUser;
+
+    const userRef = doc(db, "usuarios", user.uid);
+    const userSnap = await getDoc(userRef);
+
+    if (userSnap.exists()) {
+      esPro = userSnap.data().pro === true;
+    }
+
+    escucharDatos();
+  })
+
+// ESCUCHAR FIREBASE
+function escucharDatos() {
+  const user = auth.currentUser;
+  const ref = collection(db, "usuarios", user.uid, "entrenamientos");
+
+  onSnapshot(ref, (snapshot) => {
+
+    entrenamientos = [];
+
+    snapshot.forEach(doc => entrenamientos.push(doc.data()));
+
+    actualizarUI();
+    renderGrafico();
+    renderPR();
+    mostrarProgreso();
+  });
+}
+
+// GUARDAR
+document.getElementById("btnGuardar").addEventListener("click", async () => {
+
+  const ejercicio = document.getElementById("ejercicio").value;
+  const series = parseInt(document.getElementById("series").value);
+  const reps = parseInt(document.getElementById("reps").value);
+  const peso = parseInt(document.getElementById("peso").value);
+
+  if (!series || !reps || !peso) return alert("Completa todo");
+
+  const user = auth.currentUser;
+
+  await addDoc(collection(db, "usuarios", user.uid, "entrenamientos"), {
+    ejercicio,
+    series,
+    reps,
+    peso,
+    volumen: series * reps * peso,
+    fecha: new Date().toISOString()
+  });
+
+  const btn = document.getElementById("btnGuardar");
+  btn.innerText = "✅ Guardado";
+  setTimeout(() => btn.innerText = "💾 Guardar", 1500);
+});
+
+// UI
+function actualizarUI() {
+
+  const volumen = entrenamientos.reduce((a, e) => a + e.volumen, 0);
+  const record = Math.max(...entrenamientos.map(e => e.peso), 0);
+
+  document.getElementById("volumen").innerText = volumen + " kg";
+  document.getElementById("entrenos").innerText = entrenamientos.length;
+  document.getElementById("record").innerText = record + " kg";
+
+  const cont = document.getElementById("historial");
+  cont.innerHTML = "";
+
+  entrenamientos.slice().reverse().forEach(e => {
+    cont.innerHTML += `
+  <div class="card">
+    🔥 ${e.ejercicio}<br>
+    ${e.series}x${e.reps} → ${e.peso + 2.5}kg
+  </div>
+    `;
+  });
+}
+
+// GRÁFICO
+function renderGrafico() {
+
+  if (chart) chart.destroy();
+
+  const ctx = document.getElementById("grafico");
+
+  chart = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: entrenamientos.map(e => e.fecha),
+      datasets: [{
+        label: "Volumen",
+        data: entrenamientos.map(e => e.volumen)
+      }]
+    }
+  });
+}
+
+// PR
+function renderPR() {
+  const cont = document.getElementById("pr-list");
+  cont.innerHTML = "";
+
+  const records = {}; 
+
+  entrenamientos.forEach(e => {
+    if (!records[e.ejercicio] || e.peso > records[e.ejercicio]) {
+      records[e.ejercicio] = e.peso;
+    }
+  });
+
+  for (let ej in records) {
+    cont.innerHTML += `${ej}: ${records[ej]} kg<br>`;
+  }
+}
+
+// PROGRESO
+function mostrarProgreso() {
+
+  if (entrenamientos.length < 2) return;
+
+  const ult = entrenamientos[entrenamientos.length - 1];
+  const ant = entrenamientos[entrenamientos.length - 2];
+
+  let msg = "👌 Mantener";
+
+  if (ult.peso > ant.peso) msg = "🔥 Subiste peso";
+  if (ult.reps < ant.reps) msg = "⚠️ Fatiga";
+
+  document.getElementById("progreso").innerText = msg;
+}
+
+
+
+// RUTINA INTELIGENTE
+document.getElementById("btnRutina").addEventListener("click", () => {
+
+  if (!esPro) {
+    mostrarPaywall();
+    return;
+  }
+
+  console.log("🔥 Rutina generada");
+
+  const cont = document.getElementById("rutina");
+
+  if (entrenamientos.length === 0) {
+    cont.innerHTML = "<p>⚠️ No hay datos todavía</p>";
+    return;
+  }
+
+  cont.innerHTML = "";
+
+  entrenamientos.slice(-3).forEach(e => {
+
+    const nuevoPeso = e.peso + 2.5;
+
+    const item = document.createElement("div");
+    item.className = "history-item";
+
+    item.innerHTML = `
+      <b>${e.ejercicio}</b><br>
+      ${e.series}x${e.reps} → <span style="color:#22c55e">${nuevoPeso}kg</span>
+    `;
+
+    cont.appendChild(item);
+  });
+
+});
+
+
+
+
+
+
+let esPro = false;
+
+function mostrarPaywall() {
+  document.getElementById("paywall").classList.remove("hidden");
+}
+
+function cerrarPaywall() {
+  document.getElementById("paywall").classList.add("hidden");
+}
+
+async function comprarPro() {
+
+  const user = auth.currentUser;
+
+  await setDoc(doc(db, "usuarios", user.uid), {
+    pro: true
+  }, { merge: true });
+
+  esPro = true;
+
+  cerrarPaywall();
+
+  alert("🔥 Ahora sos PRO de por vida");
+}
+
+
+
+
+
+async function activarPro() {
+
+  const user = auth.currentUser;
+
+  await setDoc(doc(db, "usuarios", user.uid), {
+    pro: true
+  }, { merge: true });
+
+  alert("🔥 Ahora sos PRO");
+}
+
+const urlParams = new URLSearchParams(window.location.search);
+
+if (urlParams.get("status") === "approved") {
+  activarPro();
+}
+
+async function irAPago() {
+
+  const user = auth.currentUser;
+
+  const res = await fetch("http://localhost:3000/crear-pago", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      uid: user.uid
+    })
+  });
+
+  const data = await res.json();
+
+  // 🚀 REDIRECCIONA A MP
+  window.location.href = data.init_point;
+}
+
+</script>
+
+
+
+</body>
+</html>
+
