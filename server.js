@@ -2,7 +2,6 @@ import express from "express";
 import mercadopago from "mercadopago";
 import bodyParser from "body-parser";
 import admin from "firebase-admin";
-import fs from "fs";
 import cors from "cors";
 
 const app = express();
@@ -16,9 +15,7 @@ mercadopago.configure({
 });
 
 // 🔥 FIREBASE ADMIN
-const serviceAccount = JSON.parse(
-  fs.readFileSync("./serviceAccountKey.json", "utf8")
-);
+const serviceAccount = JSON.parse(process.env.FIREBASE_KEY);
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
