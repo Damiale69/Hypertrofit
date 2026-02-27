@@ -48,10 +48,16 @@ app.post("/crear-suscripcion", async (req, res) => {
     });
 
   } catch (err) {
-    console.error(err);
-    res.status(500).send("Error creando suscripción");
+
+    console.error("🔥 ERROR MP:", err);
+
+    res.status(500).json({
+      error: err.message
+    });
+
   }
 });
+
 
 
 // 🔥 WEBHOOK
