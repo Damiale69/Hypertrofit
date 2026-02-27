@@ -493,7 +493,6 @@ window.comprarPro = async function () {
       uid: user.uid
     })
   });
-
   const data = await res.json();
 
   window.location.href = data.init_point;
