@@ -470,9 +470,6 @@ document.getElementById("btnRutina").addEventListener("click", () => {
 
 
 
-
-
-
 let esPro = false;
 
 window.mostrarPaywall = function () {
@@ -487,36 +484,7 @@ window.comprarPro = async function () {
 
   const user = auth.currentUser;
 
-  // 🔥 SI QUERÉS PAGO REAL → usar irAPago()
-  await irAPago();
-
-};
-
-
-
-
-async function activarPro() {
-
-  const user = auth.currentUser;
-
-  await setDoc(doc(db, "usuarios", user.uid), {
-    pro: true
-  }, { merge: true });
-
-  alert("🔥 Ahora sos PRO");
-}
-
-const urlParams = new URLSearchParams(window.location.search);
-
-if (urlParams.get("status") === "approved") {
-  activarPro();
-}
-
-async function irAPago() {
-
-  const user = auth.currentUser;
-
-  const res = await fetch("https://TU-APP.onrender.com/crear-pago", {
+  const res = await fetch("https://hypertrofit.onrender.com/crear-suscripcion", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -528,13 +496,33 @@ async function irAPago() {
 
   const data = await res.json();
 
-  // 🚀 REDIRECCIONA A MP
+  window.location.href = data.init_point;
+};
+
+
+
+
+
+
+async function irAPago() {
+
+  const user = auth.currentUser;
+
+  const res = await fetch("https://hypertrofit.onrender.com/crear-pago", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      uid: user.uid
+    })
+  });
+
+  const data = await res.json();
+
   window.location.href = data.init_point;
 }
 
-document.getElementById("btnPro").addEventListener("click", () => {
-  mostrarPaywall();
-});
 
 </script>
 
