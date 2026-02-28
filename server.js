@@ -40,6 +40,9 @@ app.post("/crear-suscripcion", async (req, res) => {
     currency_id: "ARS"
   },
   back_url: "https://hypertrofit.onrender.com",
+
+  player_email:"damiale2569@gmail.com",
+  
   external_reference: uid,
   
 });
