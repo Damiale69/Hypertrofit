@@ -507,31 +507,31 @@ async function irAPago() {
 
   const user = auth.currentUser;
 
+  const email = prompt("Ingresá tu email para activar PRO:");
+
+  if (!email) {
+    alert("Necesitamos tu email para continuar");
+    return;
+  }
+
   const res = await fetch("https://hypertrofit.onrender.com/crear-suscripcion", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      uid: user.uid
+      uid: user.uid,
+      email: email
     })
   });
 
   const data = await res.json();
 
-  // 🔥 DEBUG CLAVE
   console.log("MP RESPONSE:", data);
 
-  // 🚨 VALIDACIÓN
-  if (!data.init_point) {
-    alert("Error creando suscripción");
-    console.log("ERROR:", data);
-    return;
-  }
-
-  // ✅ REDIRECCIÓN
   window.location.href = data.init_point;
 }
+
 
 
 </script>
