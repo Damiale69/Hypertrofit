@@ -32,20 +32,21 @@ app.post("/crear-suscripcion", async (req, res) => {
   try {
 
     const response = await mercadopago.preapproval.create({
-  reason: "HypertroFit PRO",
-  auto_recurring: {
-    frequency: 1,
-    frequency_type: "months",
-    transaction_amount: 2000,
-    currency_id: "ARS"
-  },
-  back_url: "https://hypertrofit.onrender.com",
+      reason: "HypertroFit PRO",
+      auto_recurring: {
+        frequency: 1,
+        frequency_type: "months",
+        transaction_amount: 2000,
+        currency_id: "ARS"
+      },
+      back_url: "https://hypertrofit.onrender.com",
 
-  player_email:"damiale2569@gmail.com",
-  
-  external_reference: uid,
-  
-});
+      // ✅ CORRECTO
+      payer_email: "damiale2569@gmail.com",
+
+      external_reference: uid
+    });
+
     res.json({
       init_point: response.body.init_point
     });
@@ -60,6 +61,7 @@ app.post("/crear-suscripcion", async (req, res) => {
 
   }
 });
+
 
 
 
