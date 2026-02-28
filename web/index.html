@@ -527,9 +527,15 @@ async function irAPago() {
 
   const data = await res.json();
 
-  console.log("MP RESPONSE:", data);
+console.log("MP RESPONSE:", data);
 
-  window.location.href = data.init_point;
+if (!data.init_point) {
+  alert("Error creando suscripción");
+  console.error("ERROR:", data);
+  return;
+}
+
+window.location.href = data.init_point;
 }
 
 
