@@ -42,7 +42,7 @@ app.post("/crear-suscripcion", async (req, res) => {
       back_url: "https://hypertrofit.onrender.com",
 
       // ✅ CORRECTO
-      payer_email: "damiale2569@gmail.com",
+      payer_email: "ramacciottidamian@gmail.com",
 
       external_reference: uid
     });
