@@ -503,40 +503,42 @@ window.comprarPro = async function () {
 
 
 
-async function irAPago() {
+async function irASuscripcion() {
 
-  const user = auth.currentUser;
+  try {
 
-  const email = prompt("Ingresá tu email para activar PRO:");
+    const user = auth.currentUser;
 
-  if (!email) {
-    alert("Necesitamos tu email para continuar");
-    return;
+    const res = await fetch("https://hypertrofit.onrender.com/crear-suscripcion", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        uid: user.uid,
+        email: "test_user_123456@testuser.com" // ⚠️ IMPORTANTE
+      })
+    });
+
+    const text = await res.text();
+    console.log("RAW RESPONSE:", text);
+
+    const data = JSON.parse(text);
+    console.log("MP RESPONSE:", data);
+
+    if (!data.init_point) {
+      alert("Error creando suscripción");
+      return;
+    }
+
+    window.location.href = data.init_point;
+
+  } catch (err) {
+    console.error("ERROR TOTAL:", err);
   }
 
-  const res = await fetch("https://hypertrofit.onrender.com/crear-suscripcion", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      uid: user.uid,
-      email: email
-    })
-  });
-
-  const data = await res.json();
-
-console.log("MP RESPONSE:", data);
-
-if (!data.init_point) {
-  alert("Error creando suscripción");
-  console.error("ERROR:", data);
-  return;
 }
 
-window.location.href = data.init_point;
-}
 
 
 
