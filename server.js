@@ -41,7 +41,7 @@ app.post("/crear-suscripcion", async (req, res) => {
   },
   back_url: "https://hypertrofit.onrender.com",
   external_reference: uid,
-  payer_email: "test_user_123@testuser.com"
+  
 });
     res.json({
       init_point: response.body.init_point

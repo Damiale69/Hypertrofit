@@ -507,7 +507,7 @@ async function irAPago() {
 
   const user = auth.currentUser;
 
-  const res = await fetch("https://hypertrofit.onrender.com/crear-pago", {
+  const res = await fetch("https://hypertrofit.onrender.com/crear-suscripcion", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -519,6 +519,17 @@ async function irAPago() {
 
   const data = await res.json();
 
+  // 🔥 DEBUG CLAVE
+  console.log("MP RESPONSE:", data);
+
+  // 🚨 VALIDACIÓN
+  if (!data.init_point) {
+    alert("Error creando suscripción");
+    console.log("ERROR:", data);
+    return;
+  }
+
+  // ✅ REDIRECCIÓN
   window.location.href = data.init_point;
 }
 
