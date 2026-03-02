@@ -27,7 +27,7 @@ const db = admin.firestore();
 // 🚀 CREAR SUSCRIPCIÓN
 app.post("/crear-suscripcion", async (req, res) => {
 
-  const { uid } = req.body;
+  const { uid, email } = req.body;
 
   try {
 
@@ -42,6 +42,9 @@ app.post("/crear-suscripcion", async (req, res) => {
       back_url: "https://hypertrofit.onrender.com",
 
       notification_url: "https://hypertrofit.onrender.com/webhook",
+
+      payer_email: email,
+      
       external_reference: uid
     });
 

@@ -272,7 +272,7 @@ console.log("🔥 SCRIPT CARGADO");
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
 import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
-import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
 import { doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -294,10 +294,12 @@ let entrenamientos = [];
 let chart;
 
 // LOGIN
-signInAnonymously(auth)
+const provider = new GoogleAuthProvider();
+
+signInWithPopup(auth, provider)
   .then(async () => {
 
-    console.log("🔥 Firebase OK");
+    console.log("🔥 Login con Google OK");
 
     const user = auth.currentUser;
 
@@ -310,6 +312,10 @@ signInAnonymously(auth)
 
     escucharDatos();
   })
+  .catch((error) => {
+    console.error("Error login:", error);
+  });
+
 
 // ESCUCHAR FIREBASE
 function escucharDatos() {
@@ -502,11 +508,13 @@ window.comprarPro = async function () {
 
 
 
-window.irASuscripcion = async function ()  {
+window.irASuscripcion = async function () {
 
   try {
 
     const user = auth.currentUser;
+
+    const email = user.email || "test_user_123456@testuser.com"; // fallback si es anónimo
 
     const res = await fetch("https://hypertrofit.onrender.com/crear-suscripcion", {
       method: "POST",
@@ -515,15 +523,11 @@ window.irASuscripcion = async function ()  {
       },
       body: JSON.stringify({
         uid: user.uid,
-        
+        email: email
       })
     });
 
-    const text = await res.text();
-    console.log("RAW RESPONSE:", text);
-
-    const data = JSON.parse(text);
-    console.log("MP RESPONSE:", data);
+    const data = await res.json();
 
     if (!data.init_point) {
       alert("Error creando suscripción");
@@ -537,6 +541,7 @@ window.irASuscripcion = async function ()  {
   }
 
 }
+
 
 document.getElementById("btnPro").addEventListener("click", irASuscripcion);
 
