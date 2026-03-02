@@ -440,23 +440,34 @@ function mostrarProgreso() {
 
 
 // RUTINA INTELIGENTE
-document.getElementById("btnRutina").addEventListener("click", () => {
-
-  if (!esPro) {
-    mostrarPaywall();
-    return;
-  }
-
-  console.log("🔥 Rutina generada");
-
-  const cont = document.getElementById("rutina");
+document.getElementById("btnRutina").addEventListener("click", async () => {
 
   if (entrenamientos.length === 0) {
-    cont.innerHTML = "<p>⚠️ No hay datos todavía</p>";
-    return;
+
+  const rutinaBase = [
+    { ejercicio: "Press Banca", series: 3, reps: 10, peso: 20 },
+    { ejercicio: "Sentadilla", series: 3, reps: 8, peso: 30 },
+    { ejercicio: "Peso Muerto", series: 3, reps: 5, peso: 40 }
+  ];
+
+  const user = auth.currentUser;
+
+  for (const e of rutinaBase) {
+    await addDoc(
+      collection(db, "usuarios", user.uid, "entrenamientos"),
+      {
+        ...e,
+        creado: serverTimestamp()
+      }
+    );
   }
 
-  cont.innerHTML = "";
+  console.log("🔥 Rutina base creada en Firestore");
+
+  cont.innerHTML = "<p>💪 Rutina inicial creada. Volvé a generar para progresión.</p>";
+  return;
+}
+
 
   entrenamientos.slice(-3).forEach(e => {
 
