@@ -43,8 +43,8 @@ app.post("/crear-suscripcion", async (req, res) => {
 
       notification_url: "https://hypertrofit.onrender.com/webhook",
 
-      payer_email: email,
-      
+      payer_email: req.body.email,
+
       external_reference: uid
     });
 
