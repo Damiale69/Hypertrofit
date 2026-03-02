@@ -78,32 +78,38 @@ app.post("/webhook", async (req, res) => {
 
     const data = req.body;
 
-    if (data.type === "preapproval") {
+    console.log("📩 WEBHOOK RECIBIDO:", data);
 
-      const id = data.data.id;
+    const id = data.data?.id;
 
-      const sub = await mercadopago.preapproval.get(id);
+    if (!id) {
+      return res.sendStatus(200);
+    }
 
-      if (sub.body.status === "authorized") {
+    const sub = await mercadopago.preapproval.get(id);
 
-        const uid = sub.body.external_reference;
+    console.log("📊 ESTADO SUSCRIPCION:", sub.body.status);
 
-        await db.collection("usuarios").doc(uid).set({
-          pro: true,
-          pro_expira: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
-        }, { merge: true });
+    if (sub.body.status === "authorized") {
 
-        console.log("💎 PRO ACTIVADO:", uid);
-      }
+      const uid = sub.body.external_reference;
+
+      await db.collection("usuarios").doc(uid).set({
+        pro: true,
+        pro_expira: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+      }, { merge: true });
+
+      console.log("💎 PRO ACTIVADO:", uid);
     }
 
     res.sendStatus(200);
 
   } catch (err) {
-    console.error(err);
+    console.error("❌ ERROR WEBHOOK:", err);
     res.sendStatus(500);
   }
 });
+
 
 // 🌐 SERVIR FRONTEND
 app.use(express.static(path.join(__dirname, "web")));
