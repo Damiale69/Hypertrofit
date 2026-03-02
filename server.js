@@ -3,6 +3,11 @@ import mercadopago from "mercadopago";
 import bodyParser from "body-parser";
 import admin from "firebase-admin";
 import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 
@@ -98,6 +103,13 @@ app.post("/webhook", async (req, res) => {
     console.error(err);
     res.sendStatus(500);
   }
+});
+
+// 🌐 SERVIR FRONTEND
+app.use(express.static(path.join(__dirname, "web")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "web", "index.html"));
 });
 
 
