@@ -41,6 +41,8 @@ app.post("/crear-suscripcion", async (req, res) => {
       },
       back_url: "https://hypertrofit.onrender.com",
 
+      notification_url: "https://hypertrofit.onrender.com/webhook",
+
       // ✅ CORRECTO
       payer_email: req.body.email,
 
