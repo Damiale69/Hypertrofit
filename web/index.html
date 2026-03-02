@@ -271,7 +271,7 @@ canvas {
 console.log("🔥 SCRIPT CARGADO");
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+import { getFirestore,collection,addDoc,onSnapshot,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
 import { doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
 
@@ -442,35 +442,38 @@ function mostrarProgreso() {
 // RUTINA INTELIGENTE
 document.getElementById("btnRutina").addEventListener("click", async () => {
 
+  const cont = document.getElementById("rutina");
+  cont.innerHTML = "";
+
   if (entrenamientos.length === 0) {
 
-  const rutinaBase = [
-    { ejercicio: "Press Banca", series: 3, reps: 10, peso: 20 },
-    { ejercicio: "Sentadilla", series: 3, reps: 8, peso: 30 },
-    { ejercicio: "Peso Muerto", series: 3, reps: 5, peso: 40 }
-  ];
+    const rutinaBase = [
+      { ejercicio: "Press Banca", series: 3, reps: 10, peso: 20 },
+      { ejercicio: "Sentadilla", series: 3, reps: 8, peso: 30 },
+      { ejercicio: "Peso Muerto", series: 3, reps: 5, peso: 40 }
+    ];
 
-  const user = auth.currentUser;
+    const user = auth.currentUser;
 
-  for (const e of rutinaBase) {
-    await addDoc(
-      collection(db, "usuarios", user.uid, "entrenamientos"),
-      {
-        ...e,
-        creado: serverTimestamp()
-      }
-    );
+    for (const e of rutinaBase) {
+      await addDoc(
+        collection(db, "usuarios", user.uid, "entrenamientos"),
+        {
+          ...e,
+          volumen: e.series * e.reps * e.peso,
+          fecha: new Date().toISOString(),
+          creado: serverTimestamp()
+        }
+      );
+    }
+
+    console.log("🔥 Rutina base creada en Firestore");
+
+    cont.innerHTML = "<p>💪 Rutina inicial creada. Volvé a generar para progresión.</p>";
+    return;
   }
 
-  console.log("🔥 Rutina base creada en Firestore");
-
-  cont.innerHTML = "<p>💪 Rutina inicial creada. Volvé a generar para progresión.</p>";
-  return;
-}
-
-
   entrenamientos.slice(-3).forEach(e => {
-
     const nuevoPeso = e.peso + 2.5;
 
     const item = document.createElement("div");
@@ -485,6 +488,7 @@ document.getElementById("btnRutina").addEventListener("click", async () => {
   });
 
 });
+
 
 
 
