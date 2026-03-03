@@ -384,6 +384,11 @@ canvas {
             <p id="record" class="stat-number">0 kg</p>
           </div>
 
+          <div class="stat-card">
+              <h3>1RM Máximo</h3>
+              <p id="max1RM" class="stat-number">0 kg</p>
+          </div>
+
         </div>
 
         <div class="card">
@@ -563,12 +568,15 @@ document.getElementById("btnGuardar").addEventListener("click", async () => {
 
   const user = auth.currentUser;
 
+  const oneRM = peso * (1 + reps / 30);
+
   await addDoc(collection(db, "usuarios", user.uid, "entrenamientos"), {
     ejercicio,
     series,
     reps,
     peso,
     volumen: series * reps * peso,
+    oneRM: Math.round(oneRM),
     fecha: new Date().toISOString()
     
   });
@@ -587,6 +595,12 @@ function actualizarUI() {
   document.getElementById("volumen").innerText = volumen + " kg";
   document.getElementById("entrenos").innerText = entrenamientos.length;
   document.getElementById("record").innerText = record + " kg";
+
+ 
+  document.getElementById("max1RM").innerText = max1RM + " kg";
+
+  const max1RM = Math.max(...entrenamientos.map(e => e.oneRM || 0), 0);
+
 
   const cont = document.getElementById("historial");
   cont.innerHTML = "";
@@ -654,27 +668,24 @@ function renderPR() {
   const cont = document.getElementById("pr-list");
   cont.innerHTML = "";
 
-  const records = {}; 
+  const records = {};
 
   entrenamientos.forEach(e => {
-    if (!records[e.ejercicio] || e.peso > records[e.ejercicio]) {
-      records[e.ejercicio] = e.peso;
+    if (!records[e.ejercicio] || e.oneRM > records[e.ejercicio]) {
+      records[e.ejercicio] = e.oneRM;
     }
   });
 
- for (let ej in records) {
-
-  const el = document.createElement("div");
-  el.innerText = `${ej}: ${records[ej]} kg`;
-
-  if (records[ej] > 50) { // ejemplo trigger
-    el.classList.add("pr-upgrade");
-    playSuccessSound();
+  for (let ej in records) {
+    cont.innerHTML += `
+      <div style="margin-bottom:8px">
+        <b>${ej}</b><br>
+        🧠 1RM estimado: <span style="color:#22c55e">${records[ej]} kg</span>
+      </div>
+    `;
   }
+}
 
-  cont.appendChild(el);
-}
-}
 
 // PROGRESO
 function mostrarProgreso() {
