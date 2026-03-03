@@ -121,7 +121,7 @@ body {
 }
 
 .content {
-  padding: 110px 40px 40px 40px;
+  padding: 120px 60px 60px 60px;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -131,7 +131,7 @@ body {
 .grid-2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  gap: 40px;
 }
 
 @media (max-width: 768px) {
@@ -139,9 +139,7 @@ body {
     grid-template-columns: 1fr;
   }
 
-  .content {
-    padding: 100px 20px 30px 20px;
-  }
+  
 
   .navbar-inner {
     padding: 0 20px;
@@ -159,12 +157,20 @@ body {
 /* ---------- CARDS ---------- */
 
 .card {
-  background: rgba(255,255,255,0.05);
+  background: rgba(255,255,255,0.07);
   padding: 20px;
   border-radius: 20px;
   backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.05);
   box-shadow: 0 10px 30px rgba(0,0,0,0.3);
   transition: 0.3s ease;
+}
+.stat-card {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.05);
+  padding: 25px;
+  border-radius: 18px;
+
 }
 
 .card:hover {
@@ -210,6 +216,14 @@ input, select {
 
 .hidden {
   display: none;
+}
+
+canvas {
+  width: 100% !important;
+  height: 280px !important;
+  background: rgba(255,255,255,0.07);
+  border-radius: 18px;
+  padding: 20px;
 }
 
 
