@@ -344,6 +344,89 @@ canvas {
   margin: 0 auto;
 }
 
+.user-menu {
+  position: relative;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.dropdown {
+  position: absolute;
+  right: 0;
+  top: 50px;
+  width: 220px;
+  background: #1f2937;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: fadeIn 0.2s ease;
+}
+
+.dropdown button {
+  background: transparent;
+  border: none;
+  color: white;
+  text-align: left;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.dropdown button:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+.dropdown-header {
+  text-align: center;
+}
+
+.avatar-big {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-bottom: 8px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+
+  .navbar-inner {
+    padding: 0 20px;
+  }
+
+  .brand {
+    font-size: 14px;
+  }
+
+  .user-section span {
+    display: none; /* ocultar email en mobile */
+  }
+
+  .content {
+    padding: 100px 20px 30px 20px;
+  }
+
+  .grid-2,
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dropdown {
+    right: -20px;
+  }
+
+}
+
+
 
 
 
@@ -366,14 +449,29 @@ canvas {
     <div class="brand">HYPERTROFIT 💪</div>
 
     <div class="user-section">
-      <span id="proBadge" class="badge hidden">💎 PRO</span>
-      <button id="themeToggle">🌙</button>
-      <img id="userPhoto" class="avatar" />
-      <span id="userEmail"></span>
-      <button id="btnLogout">🚪</button>
+
+  <span id="proBadge" class="badge hidden">💎 PRO</span>
+
+  <button id="themeToggle">🌙</button>
+
+  <div class="user-menu">
+    <img id="userPhoto" class="avatar clickable" />
+
+    <div class="dropdown hidden" id="dropdownMenu">
+      <div class="dropdown-header">
+        <img id="userPhotoBig" class="avatar-big" />
+        <p id="userEmailDropdown"></p>
+      </div>
+
+      <hr>
+
+      <button id="btnPerfil">Mi Perfil</button>
+      <button id="btnLogout">Cerrar sesión</button>
     </div>
   </div>
+
 </div>
+
 
 
 
@@ -511,6 +609,10 @@ onAuthStateChanged(auth, async (user) => {
 
     document.getElementById("userEmail").innerText = "👤 " + user.email;
     document.getElementById("userPhoto").src = user.photoURL;
+
+    document.getElementById("userPhotoBig").src = user.photoURL;
+    document.getElementById("userEmailDropdown").innerText = user.email;
+
 
     console.log("📧 Email:", user.email);
     console.log("🆔 UID:", user.uid);
@@ -805,6 +907,20 @@ if (localStorage.getItem("theme") === "light") {
   document.body.classList.add("light-mode");
   toggle.innerText = "☀️";
 }
+
+const avatar = document.getElementById("userPhoto");
+const dropdown = document.getElementById("dropdownMenu");
+
+avatar.addEventListener("click", () => {
+  dropdown.classList.toggle("hidden");
+});
+
+// Cerrar si clic afuera
+document.addEventListener("click", (e) => {
+  if (!e.target.closest(".user-menu")) {
+    dropdown.classList.add("hidden");
+  }
+});
 
 
 
