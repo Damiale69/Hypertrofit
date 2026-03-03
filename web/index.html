@@ -387,39 +387,31 @@ let chart;
 // LOGIN
 const provider = new GoogleAuthProvider();
 
+
 onAuthStateChanged(auth, async (user) => {
 
   if (user) {
 
-    document.getElementById("landing").style.display = "none";
-    document.querySelector(".app").style.display = "block";
+    // Mostrar app
+    document.getElementById("landing").classList.add("hidden");
+    document.getElementById("app").style.display = "block";
 
-    document.getElementById("userEmail").innerText = "👤 " + user.email;
-    document.getElementById("userPhoto").src = user.photoURL;
-
-    document.getElementById("userPhotoBig").src = user.photoURL;
-    document.getElementById("userEmailDropdown").innerText = user.email;
-
-
-    console.log("📧 Email:", user.email);
-    console.log("🆔 UID:", user.uid);
-
-    const userRef = doc(db, "usuarios", user.uid);
-    const userSnap = await getDoc(userRef);
-
-    if (userSnap.exists() && userSnap.data().pro === true) {
-      esPro = true;
-      document.getElementById("proBadge").classList.remove("hidden");
-    }
+    // Cargar datos usuario
+    document.getElementById("userEmail").innerText = user.email;
+    document.getElementById("userAvatar").src = user.photoURL;
+    document.getElementById("userAvatarBig").src = user.photoURL;
 
     escucharDatos();
 
   } else {
-    document.querySelector(".app").style.display = "none";
-    document.getElementById("landing").style.display = "flex";
-  }
 
+    // Mostrar landing
+    document.getElementById("landing").classList.remove("hidden");
+    document.getElementById("app").style.display = "none";
+
+  }
 });
+
 
 document.getElementById("btnLoginLanding")
   .addEventListener("click", () => {
