@@ -80,6 +80,7 @@ input, select {
   
   max-width: 900px;
   margin: 0 auto;
+  position: relative;
 }
 
 .grid-2 {
@@ -171,6 +172,174 @@ canvas {
   to { transform: scale(1); opacity: 1; }
 }
 
+#btnLogout {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: #1f2937;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+#btnLogout:hover {
+  background: #374151;
+  transform: scale(1.05);
+}
+
+.user-bar {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#userEmail {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+#btnLogout {
+  background: #1f2937;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+#btnLogout:hover {
+  background: #374151;
+  transform: scale(1.05);
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background: #111827;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 25px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  z-index: 1000;
+}
+
+.brand {
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid #22c55e;
+}
+
+#userEmail {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+#btnLogout {
+  background: #1f2937;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+#btnLogout:hover {
+  background: #374151;
+  transform: scale(1.05);
+}
+
+.badge {
+  background: linear-gradient(45deg, gold, orange);
+  color: black;
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 12px;
+  animation: glow 1.5s infinite alternate;
+}
+
+.hidden {
+  display: none;
+}
+
+@keyframes glow {
+  from { box-shadow: 0 0 5px gold; }
+  to { box-shadow: 0 0 15px orange; }
+}
+
+/* Empujar contenido hacia abajo */
+.app {
+  margin-top: 80px;
+  display: none;
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.stat-card {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(12px);
+  padding: 25px;
+  border-radius: 18px;
+  transition: 0.3s ease;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+}
+
+.stat-number {
+  font-size: 28px;
+  font-weight: bold;
+  margin-top: 10px;
+  color: #22c55e;
+}
+.light-mode {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+.light-mode .card,
+.light-mode .stat-card {
+  background: white;
+  color: black;
+}
+
+.light-mode .navbar {
+  background: white;
+  color: black;
+}
+
+
+
 
 </style>
 
@@ -178,7 +347,25 @@ canvas {
 
 <body>
 
+<div id="landing" class="landing">
+  <h1>HypertroFit 💪</h1>
+  <p>Entrená inteligente. Medí tu progreso. Rompé tus límites.</p>
+  <button id="btnLoginLanding">Iniciar con Google</button>
+</div>
+
 <div class="app">
+
+<div class="navbar">
+  <div class="brand">HYPERTROFIT 💪</div>
+
+  <div class="user-section">
+    <span id="proBadge" class="badge hidden">💎 PRO</span>
+    <img id="userPhoto" class="avatar" />
+    <span id="userEmail"></span>
+    <button id="btnLogout">🚪</button>
+    <button id="themeToggle">🌙</button>
+  </div>
+</div>
 
 <h1>HYPERTROFIT PRO 💪</h1>
 
@@ -205,12 +392,22 @@ canvas {
       <button id="btnGuardar">💾 Guardar</button>
     </div>
 
-    <div class="card">
-      <h2>Stats</h2>
-      <div class="stat"><h3 id="volumen">0</h3><p>Volumen</p></div>
-      <div class="stat"><h3 id="entrenos">0</h3><p>Entrenos</p></div>
-      <div class="stat"><h3 id="record">0</h3><p>PR</p></div>
-    </div>
+   <div class="stats-grid">
+       <div class="stat-card">
+       <h3>Volumen Total</h3>
+       <p id="volumen" class="stat-number">0 kg</p>
+   </div>
+
+   <div class="stat-card">
+       <h3>Entrenamientos</h3>
+       <p id="entrenos" class="stat-number">0</p>
+   </div>
+
+   <div class="stat-card">
+      <h3>PR Máximo</h3>
+      <p id="record" class="stat-number">0 kg</p>
+   </div>
+</div>
 
     <div class="card">
       <h2>Historial</h2>
@@ -274,6 +471,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebas
 import { getFirestore,collection,addDoc,onSnapshot,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
 import { doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDEKpbSJQL5wX8EuOxOwKdr4iobJRPWiY4",
@@ -296,24 +494,39 @@ let chart;
 // LOGIN
 const provider = new GoogleAuthProvider();
 
-signInWithPopup(auth, provider)
-  .then(async () => {
+onAuthStateChanged(auth, async (user) => {
 
-    console.log("🔥 Login con Google OK");
+  if (user) {
 
-    const user = auth.currentUser;
+    document.getElementById("landing").style.display = "none";
+    document.querySelector(".app").style.display = "block";
+
+    document.getElementById("userEmail").innerText = "👤 " + user.email;
+    document.getElementById("userPhoto").src = user.photoURL;
+
+    console.log("📧 Email:", user.email);
+    console.log("🆔 UID:", user.uid);
 
     const userRef = doc(db, "usuarios", user.uid);
     const userSnap = await getDoc(userRef);
 
-    if (userSnap.exists()) {
-      esPro = userSnap.data().pro === true;
+    if (userSnap.exists() && userSnap.data().pro === true) {
+      esPro = true;
+      document.getElementById("proBadge").classList.remove("hidden");
     }
 
     escucharDatos();
-  })
-  .catch((error) => {
-    console.error("Error login:", error);
+
+  } else {
+    document.querySelector(".app").style.display = "none";
+    document.getElementById("landing").style.display = "flex";
+  }
+
+});
+
+document.getElementById("btnLoginLanding")
+  .addEventListener("click", () => {
+    signInWithPopup(auth, provider);
   });
 
 
@@ -559,6 +772,32 @@ window.irASuscripcion = async function () {
 
 
 document.getElementById("btnPro").addEventListener("click", irASuscripcion);
+
+document.getElementById("btnLogout").addEventListener("click", async () => {
+  await signOut(auth);
+  location.reload();
+});
+
+const toggle = document.getElementById("themeToggle");
+
+toggle.addEventListener("click", () => {
+  document.body.classList.toggle("light-mode");
+
+  if (document.body.classList.contains("light-mode")) {
+    toggle.innerText = "☀️";
+    localStorage.setItem("theme", "light");
+  } else {
+    toggle.innerText = "🌙";
+    localStorage.setItem("theme", "dark");
+  }
+});
+
+// Mantener preferencia guardada
+if (localStorage.getItem("theme") === "light") {
+  document.body.classList.add("light-mode");
+  toggle.innerText = "☀️";
+}
+
 
 
 </script>
