@@ -229,111 +229,126 @@ input, select {
   <button id="btnLoginLanding">Iniciar con Google</button>
 </div>
 
-<div class="app">
+<div id="app" class="app">
 
-<div class="navbar">
-  <div class="navbar-inner">
-    <div class="brand">HYPERTROFIT 💪</div>
+  <!-- NAVBAR -->
+  <div class="navbar">
+    <div class="navbar-inner">
 
-    <div class="user-section">
+      <div class="brand">HYPERTROFIT 💪</div>
 
-  <span id="proBadge" class="badge hidden">💎 PRO</span>
+      <div class="user-section">
 
-  <button id="themeToggle">🌙</button>
+        <span id="proBadge" class="badge hidden">💎 PRO</span>
 
-  <div class="user-menu">
-    <img id="userPhoto" class="avatar clickable" />
+        <button id="themeToggle">🌙</button>
 
-    <div class="dropdown hidden" id="dropdownMenu">
-      <div class="dropdown-header">
-        <img id="userPhotoBig" class="avatar-big" />
-        <p id="userEmailDropdown"></p>
+        <div class="user-menu">
+          <img id="userPhoto" class="avatar clickable" />
+
+          <div class="dropdown hidden" id="dropdownMenu">
+            <div class="dropdown-header">
+              <img id="userPhotoBig" class="avatar-big" />
+              <p id="userEmailDropdown"></p>
+            </div>
+
+            <hr>
+
+            <button id="btnPerfil">Mi Perfil</button>
+            <button id="btnLogout">Cerrar sesión</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTENIDO -->
+  <div class="content">
+
+    <div class="grid-2">
+
+      <!-- IZQUIERDA -->
+      <div>
+
+        <div class="card">
+          <h2>Registrar</h2>
+
+          <div class="grid">
+            <select id="ejercicio">
+              <option>Press Banca</option>
+              <option>Sentadilla</option>
+              <option>Peso Muerto</option>
+            </select>
+
+            <input id="series" type="number" placeholder="Series">
+            <input id="reps" type="number" placeholder="Reps">
+            <input id="peso" type="number" placeholder="Peso">
+          </div>
+
+          <button id="btnGuardar">💾 Guardar</button>
+        </div>
+
+        <div class="stats-grid">
+
+          <div class="stat-card">
+            <h3>Volumen Total</h3>
+            <p id="volumen" class="stat-number">0 kg</p>
+          </div>
+
+          <div class="stat-card">
+            <h3>Entrenamientos</h3>
+            <p id="entrenos" class="stat-number">0</p>
+          </div>
+
+          <div class="stat-card">
+            <h3>PR Máximo</h3>
+            <p id="record" class="stat-number">0 kg</p>
+          </div>
+
+        </div>
+
+        <div class="card">
+          <h2>Historial</h2>
+          <div id="historial"></div>
+        </div>
+
       </div>
 
-      <hr>
+      <!-- DERECHA -->
+      <div>
 
-      <button id="btnPerfil">Mi Perfil</button>
-      <button id="btnLogout">Cerrar sesión</button>
-    </div>
-  </div>
+        <canvas id="grafico"></canvas>
 
-</div>
+        <div class="card">
+          <h2>🏆 PR</h2>
+          <div id="pr-list"></div>
+        </div>
 
+        <div class="card">
+          <h3>Progreso</h3>
+          <p id="progreso">...</p>
+        </div>
 
+        <div class="card">
+          <h2>🔥 Rutina Inteligente</h2>
+          <button id="btnRutina">Generar Rutina</button>
+          <div id="rutina"></div>
+        </div>
 
-
-<div class="grid-2">
-
-  <!-- IZQUIERDA -->
-  <div>
-
-    <div class="card">
-      <h2>Registrar</h2>
-
-      <div class="grid">
-        <select id="ejercicio">
-          <option>Press Banca</option>
-          <option>Sentadilla</option>
-          <option>Peso Muerto</option>
-        </select>
-
-        <input id="series" type="number" placeholder="Series">
-        <input id="reps" type="number" placeholder="Reps">
-        <input id="peso" type="number" placeholder="Peso">
       </div>
 
-      <button id="btnGuardar">💾 Guardar</button>
     </div>
 
-   <div class="stats-grid">
-       <div class="stat-card">
-       <h3>Volumen Total</h3>
-       <p id="volumen" class="stat-number">0 kg</p>
-   </div>
-
-   <div class="stat-card">
-       <h3>Entrenamientos</h3>
-       <p id="entrenos" class="stat-number">0</p>
-   </div>
-
-   <div class="stat-card">
-      <h3>PR Máximo</h3>
-      <p id="record" class="stat-number">0 kg</p>
-   </div>
-</div>
-
-    <div class="card">
-      <h2>Historial</h2>
-      <div id="historial"></div>
+    <!-- BOTÓN PRO DENTRO DEL CONTENT -->
+    <div style="margin-top:40px;">
+      <button id="btnPro">💳 Hacete PRO</button>
     </div>
 
   </div>
-
-  <!-- DERECHA -->
-  <div>
-
-    <canvas id="grafico"></canvas>
-
-    <div class="card">
-      <h2>🏆 PR</h2>
-      <div id="pr-list"></div>
-    </div>
-
-    <div class="card">
-      <h3>Progreso</h3>
-      <p id="progreso">...</p>
-    </div>
-
-    <div class="card">
-      <h2>🔥 Rutina Inteligente</h2>
-      <button id="btnRutina">Generar Rutina</button>
-      <div id="rutina"></div>
-    </div>
-
-  </div>
-
 </div>
 
+<!-- PAYWALL -->
 <div id="paywall" class="paywall hidden">
   <div class="paywall-content">
 
@@ -352,8 +367,6 @@ input, select {
 
   </div>
 </div>
-
-<button id="btnPro">💳 Hacete PRO</button>
 
 <!-- FIREBASE + APP -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
