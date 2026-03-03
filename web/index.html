@@ -218,13 +218,19 @@ canvas {
   left: 0;
   width: 100%;
   height: 70px;
-  background: rgba (15,23,42,0.8);
+  background: rgba(15, 23, 42, 0.85);
   backdrop-filter: blur(12px);
+  z-index: 1000;
+}
+
+.navbar-inner {
+  max-width: 1200px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 40px;
-  z-index: 1000;
 }
 
 .brand {
@@ -356,14 +362,16 @@ canvas {
 <div class="app">
 
 <div class="navbar">
-  <div class="brand">HYPERTROFIT 💪</div>
+  <div class="navbar-inner">
+    <div class="brand">HYPERTROFIT 💪</div>
 
-  <div class="user-section">
-    <span id="proBadge" class="badge hidden">💎 PRO</span>
-    <img id="userPhoto" class="avatar" />
-    <span id="userEmail"></span>
-    <button id="btnLogout">🚪</button>
-    <button id="themeToggle">🌙</button>
+    <div class="user-section">
+      <span id="proBadge" class="badge hidden">💎 PRO</span>
+      <button id="themeToggle">🌙</button>
+      <img id="userPhoto" class="avatar" />
+      <span id="userEmail"></span>
+      <button id="btnLogout">🚪</button>
+    </div>
   </div>
 </div>
 
