@@ -478,10 +478,13 @@ onAuthStateChanged(auth, async (user) => {
     document.getElementById("app").style.display = "block";
 
     // Cargar datos usuario
-    document.getElementById("userEmail").innerText = user.email;
-    document.getElementById("userAvatar").src = user.photoURL;
-    document.getElementById("userAvatarBig").src = user.photoURL;
+   const emailEl = document.getElementById("userEmailDropdown");
+const photoEl = document.getElementById("userPhoto");
+const photoBigEl = document.getElementById("userPhotoBig");
 
+if (emailEl) emailEl.innerText = user.email;
+if (photoEl) photoEl.src = user.photoURL;
+if (photoBigEl) photoBigEl.src = user.photoURL;
     escucharDatos();
 
   } else {
