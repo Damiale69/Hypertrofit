@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>HypertroFit PRO</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#22c55e"> 
 
   
 
@@ -940,6 +942,13 @@ function calcularPrediccion(ejercicio) {
   const ultimo = ejerciciosFiltrados[2].oneRM;
 
   return Math.round(ultimo + promedioIncremento);
+}
+
+// REGISTRAR PWA
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/sw.js")
+    .then(() => console.log("🔥 PWA lista"))
+    .catch(err => console.log("Error SW:", err));
 }
 
 
