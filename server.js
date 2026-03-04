@@ -114,6 +114,10 @@ app.post("/webhook", async (req, res) => {
 // 🌐 SERVIR FRONTEND
 app.use(express.static(path.join(__dirname, "web")));
 
+app.get("/sw.js", (req, res) => {
+  res.sendFile(path.join(__dirname, "web", "sw.js"));
+});
+
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "web", "index.html"));
 });

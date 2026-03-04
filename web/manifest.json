@@ -1,11 +1,10 @@
 {
-  "name": "HypertroFit PRO",
+  "name": "HypertroFit",
   "short_name": "HypertroFit",
-  "start_url": ".",
+  "start_url": "/",
   "display": "standalone",
-  "background_color": "#0f2027",
-  "theme_color": "#00ff88",
-  "orientation": "portrait",
+  "background_color": "#020617",
+  "theme_color": "#22c55e",
   "icons": [
     {
       "src": "icon-192.png",
