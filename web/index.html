@@ -499,6 +499,7 @@ const auth = getAuth(app);
 
 let entrenamientos = [];
 let chart;
+let esPro = false;
 
 // LOGIN
 const provider = new GoogleAuthProvider();
@@ -593,16 +594,18 @@ const isNewPR = oneRMRounded > previousBest;
     
     
   });
+
+  if (isNewPR) {
+  mostrarNuevoPR(oneRMRounded);
+  playSuccessSound();
+}
   
   const btn = document.getElementById("btnGuardar");
   btn.innerText = "✅ Guardado";
   setTimeout(() => btn.innerText = "💾 Guardar", 1500);
 });
 
-  if (isNewPR) {
-  mostrarNuevoPR(oneRMRounded);
-  playSuccessSound();
-}
+  
 
 // UI
 function actualizarUI() {
@@ -619,6 +622,17 @@ function actualizarUI() {
   document.getElementById("record").innerText = record + " kg";
   document.getElementById("max1RM").innerText = max1RM + " kg";
 
+  const ultimoEjercicio = entrenamientos[entrenamientos.length - 1]?.ejercicio;
+
+if (ultimoEjercicio) {
+  const prediccion = calcularPrediccion(ultimoEjercicio);
+
+  if (prediccion) {
+    document.getElementById("progreso").innerText =
+      `🧠 Próximo PR estimado: ${prediccion} kg`;
+  }
+}
+
   const cont = document.getElementById("historial");
   cont.innerHTML = "";
 
@@ -634,16 +648,7 @@ function actualizarUI() {
   });
 }
 
-const ultimoEjercicio = entrenamientos[entrenamientos.length - 1]?.ejercicio;
 
-if (ultimoEjercicio) {
-  const prediccion = calcularPrediccion(ultimoEjercicio);
-
-  if (prediccion) {
-    document.getElementById("progreso").innerText =
-      `🧠 Próximo PR estimado: ${prediccion} kg`;
-  }
-}
 
 // GRÁFICO
 function renderGrafico() {
@@ -796,7 +801,7 @@ document.getElementById("btnRutina").addEventListener("click", async () => {
 
 
 
-let esPro = false;
+
 
 window.mostrarPaywall = function () {
   document.getElementById("paywall").classList.remove("hidden");
