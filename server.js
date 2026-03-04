@@ -111,11 +111,19 @@ app.post("/webhook", async (req, res) => {
 });
 
 
-// 🌐 SERVIR FRONTEND
+// SERVIR FRONTEND
 app.use(express.static(path.join(__dirname, "web")));
 
 app.get("/sw.js", (req, res) => {
   res.sendFile(path.join(__dirname, "web", "sw.js"));
+});
+
+app.get("/icon-192.png", (req, res) => {
+  res.sendFile(path.join(__dirname, "web", "icon-192.png"));
+});
+
+app.get("/icon-512.png", (req, res) => {
+  res.sendFile(path.join(__dirname, "web", "icon-512.png"));
 });
 
 app.get("*", (req, res) => {
