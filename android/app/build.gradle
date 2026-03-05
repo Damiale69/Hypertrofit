@@ -1,6 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
+
+
+    compileOptions {
+    sourceCompatibility JavaVersion.VERSION_17
+    targetCompatibility JavaVersion.VERSION_17
+
+    }
+
+
     namespace "com.hypertrofit.app"
     compileSdk rootProject.ext.compileSdkVersion
     defaultConfig {
@@ -15,6 +24,8 @@ android {
              // Default: https://android.googlesource.com/platform/frameworks/base/+/282e181b58cf72b6ca770dc7ca5f91f135444502/tools/aapt/AaptAssets.cpp#61
             ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
+
+
     }
     buildTypes {
         release {
@@ -52,3 +63,4 @@ try {
 } catch(Exception e) {
     logger.info("google-services.json not found, google-services plugin not applied. Push Notifications won't work")
 }
+

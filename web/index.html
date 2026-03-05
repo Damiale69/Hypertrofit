@@ -459,6 +459,7 @@ canvas {
 console.log("🔥 SCRIPT CARGADO");
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+import { getAuth, setPersistence, browserLocalPersistence } from "firebase/auth";
 import { getFirestore,collection,addDoc,onSnapshot,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
 import { doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
@@ -498,6 +499,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
+
+setPersistence(auth, browserLocalPersistence);
 
 let entrenamientos = [];
 let chart;
