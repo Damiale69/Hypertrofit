@@ -459,7 +459,7 @@ canvas {
 console.log("🔥 SCRIPT CARGADO");
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-import { getAuth, signInWithPopup, GoogleAuthProvider, setPersistence, browserLocalPersistence, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider, setPersistence, signinWithRedirect, getRedirectResult, browserLocalPersistence, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
 import { getFirestore,collection,addDoc,onSnapshot,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
 import { doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
 
