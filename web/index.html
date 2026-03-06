@@ -497,10 +497,20 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+
 const auth = getAuth(app);
-
-
+auth.useDeviceLanguaje();
 setPersistence(auth, browserLocalPersistence);
+
+getRedirectResult(auth)
+  .then((result) => {
+    if (result?.user) {
+      console.log("Usuario logueado", result.user);
+    }
+  })
+  .catch((error) => {
+    console.error(error);
+  });
 
 let entrenamientos = [];
 let chart;
@@ -540,22 +550,12 @@ if (photoBigEl) photoBigEl.src = user.photoURL;
 
 
 
+
+
+
+
 document.getElementById("btnLoginLanding").addEventListener("click", async () => {
-
-  const isMobileApp = window.location.protocol === "capacitor:" || window.location.protocol === "http:" && window.location.hostname === "localhost";
-
-  if (isMobileApp) {
-
-    // abrir login en navegador real del teléfono
-    window.open("https://hypertrofit-9f4e1.firebaseapp.com", "_system");
-
-  } else {
-
-    // login normal para web
-    await signInWithRedirect(auth, provider);
-
-  }
-
+  await signInWithRedirect(auth, provider);
 });
 
 // ESCUCHAR FIREBASE
