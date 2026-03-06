@@ -499,6 +499,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
+
 setPersistence(auth, browserLocalPersistence);
 
 let entrenamientos = [];
@@ -541,8 +542,11 @@ if (photoBigEl) photoBigEl.src = user.photoURL;
 
 document.getElementById("btnLoginLanding").addEventListener("click", async () => {
   try {
+    
+   
 
     const result = await signInWithPopup(auth, provider);
+
     const user = result.user;
 
     console.log("Usuario:", user);
