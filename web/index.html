@@ -537,11 +537,20 @@ if (photoBigEl) photoBigEl.src = user.photoURL;
 });
 
 
-document.getElementById("btnLoginLanding")
-  .addEventListener("click", () => {
-    signInWithPopup(auth, provider);
-  });
 
+
+document.getElementById("btnLoginLanding").addEventListener("click", async () => {
+  try {
+
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+
+    console.log("Usuario:", user);
+
+  } catch (error) {
+    console.error(error);
+  }
+});
 
 // ESCUCHAR FIREBASE
 function escucharDatos() {
