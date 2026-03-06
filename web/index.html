@@ -541,19 +541,21 @@ if (photoBigEl) photoBigEl.src = user.photoURL;
 
 
 document.getElementById("btnLoginLanding").addEventListener("click", async () => {
-  try {
-    
-   
 
-    const result = await signInWithPopup(auth, provider);
+  const isMobileApp = window.location.protocol === "capacitor:" || window.location.protocol === "http:" && window.location.hostname === "localhost";
 
-    const user = result.user;
+  if (isMobileApp) {
 
-    console.log("Usuario:", user);
+    // abrir login en navegador real del teléfono
+    window.open("https://hypertrofit-9f4e1.firebaseapp.com", "_system");
 
-  } catch (error) {
-    console.error(error);
+  } else {
+
+    // login normal para web
+    await signInWithRedirect(auth, provider);
+
   }
+
 });
 
 // ESCUCHAR FIREBASE
