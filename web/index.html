@@ -37,6 +37,10 @@ body.light-mode {
   color: #111827;
 }
 
+body.light-mode::before {
+  display: none;
+}
+
 @keyframes moveGlow {
   from {
     transform: translateY(-20px) scale(1);
