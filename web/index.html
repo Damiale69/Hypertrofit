@@ -16,6 +16,10 @@ body {
   color: white;
   overflow-x: hidden;
   background: #020617;
+  transition: all 0.3s ease;
+  background: radial-gradient(circle at 20% 30%, rgba(34,197,94,0.15), transparent 40%),
+              radial-gradient(circle at 80% 70%, rgba(59,130,246,0.15), transparent 40%),
+              linear-gradient(135deg,#0f172a,#020617);
 }
 
 body::before {
@@ -26,7 +30,11 @@ body::before {
               radial-gradient(circle at 80% 70%, rgba(16,185,129,0.25), transparent 40%);
   animation: moveGlow 8s ease-in-out infinite alternate;
   z-index: -1;
-  transition: all 0.3s ease;
+}
+
+body.light-mode {
+  background: linear-gradient(135deg,#f1f5f9,#e2e8f0) !important;
+  color: #111827;
 }
 
 @keyframes moveGlow {
@@ -219,6 +227,13 @@ body::before {
   transform: scale(1.05);
 }
 
+body.light-mode .card,
+body.light-mode .stat-card {
+  background: rgba(255,255,255,0.9);
+  color: #111827;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
 
 
 /* ---------- BUTTONS ---------- */
@@ -295,10 +310,6 @@ canvas {
   100% { transform: scale(1); }
 }
 
-.light-mode {
-  background: linear-gradient(135deg,#f1f5f9,#e2e8f0);
-  color: #111827;
-}
 
 .light-mode .card,
 .light-mode .stat-card {
@@ -941,7 +952,9 @@ toggle.addEventListener("click", () => {
 
 // Mantener preferencia guardada
 if (localStorage.getItem("theme") === "light") {
-  document.body.classList.add("light-mode");
+ document.body.classList.toggle("light-mode");
+
+ document.documentElement.classList.toggle("light-mode");
   toggle.innerText = "☀️";
 }
 
