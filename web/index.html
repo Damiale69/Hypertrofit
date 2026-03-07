@@ -939,7 +939,8 @@ document.getElementById("btnLogout").addEventListener("click", async () => {
 const toggle = document.getElementById("themeToggle");
 
 toggle.addEventListener("click", () => {
-  const isLIght = document.body.classList.toggle("light-mode");
+
+  const isLight = document.body.classList.toggle("light-mode");
 
   if (isLight) {
     toggle.innerText = "☀️";
@@ -948,13 +949,13 @@ toggle.addEventListener("click", () => {
     toggle.innerText = "🌙";
     localStorage.setItem("theme", "dark");
   }
+
 });
 
 // Mantener preferencia guardada
 if (localStorage.getItem("theme") === "light") {
  document.body.classList.toggle("light-mode");
 
- document.documentElement.classList.toggle("light-mode");
   toggle.innerText = "☀️";
 }
 
