@@ -507,15 +507,7 @@ setPersistence(auth, browserLocalPersistence)
     console.error("Error persistencia:", error);
   });
 
-getRedirectResult(auth)
-  .then((result) => {
-    if (result?.user) {
-      console.log("Usuario logueado", result.user);
-    }
-  })
-  .catch((error) => {
-    console.error(error);
-  });
+
 
 let entrenamientos = [];
 let chart;
@@ -553,15 +545,26 @@ if (photoBigEl) photoBigEl.src = user.photoURL;
 });
 
 
-
-
-
-
-
-
 document.getElementById("btnLoginLanding").addEventListener("click", async () => {
-  await signInWithRedirect(auth, provider);
+
+  try {
+
+    const result = await signInWithPopup(auth, provider);
+
+    console.log("Usuario:", result.user);
+
+  } catch (error) {
+
+    console.error("Error login:", error);
+
+  }
+
 });
+
+
+
+
+
 
 // ESCUCHAR FIREBASE
 function escucharDatos() {
