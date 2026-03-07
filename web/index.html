@@ -26,6 +26,7 @@ body::before {
               radial-gradient(circle at 80% 70%, rgba(16,185,129,0.25), transparent 40%);
   animation: moveGlow 8s ease-in-out infinite alternate;
   z-index: -1;
+  transition: all 0.3s ease;
 }
 
 @keyframes moveGlow {
@@ -293,6 +294,27 @@ canvas {
   50% { transform: scale(1.2); color: #22c55e; }
   100% { transform: scale(1); }
 }
+
+.light-mode {
+  background: linear-gradient(135deg,#f1f5f9,#e2e8f0);
+  color: #111827;
+}
+
+.light-mode .card,
+.light-mode .stat-card {
+  background: rgba(255,255,255,0.9);
+  color: #111827;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.light-mode canvas {
+  background: rgba(255,255,255,0.9);
+}
+
+.light-mode .navbar {
+  background: rgba(255,255,255,0.9);
+}
+
 
 
 
