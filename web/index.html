@@ -459,7 +459,7 @@ canvas {
 console.log("🔥 SCRIPT CARGADO");
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-import {getAuth,GoogleAuthProvider,signInWithPopup,signInWithRedirect,getRedirectResult,onAuthStateChanged,signOut,setPersistence,browserLocalPersistence} from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+import {getAuth,GoogleAuthProvider,signInWithPopup,onAuthStateChanged,signOut,setPersistence,browserLocalPersistence} from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
 import { getFirestore,collection,addDoc,onSnapshot,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
 import { doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
 
@@ -547,27 +547,19 @@ if (photoBigEl) photoBigEl.src = user.photoURL;
 
 document.getElementById("btnLoginLanding").addEventListener("click", async () => {
 
-  const isAndroidApp =
-    window.location.protocol === "capacitor:" ||
-    window.location.hostname === "localhost";
+  try {
 
-  if (isAndroidApp) {
+    const result = await signInWithPopup(auth, provider);
 
-    // abrir login en navegador real
-    window.open(
-      "https://hypertrofit.onrender.com",
-      "_system"
-    );
+    console.log("Usuario:", result.user);
 
-  } else {
+  } catch (error) {
 
-    // login normal web
-    await signInWithPopup(auth, provider);
+    console.error("Error login:", error);
 
   }
 
 });
-
 
 
 
