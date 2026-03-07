@@ -547,15 +547,18 @@ if (photoBigEl) photoBigEl.src = user.photoURL;
 
 document.getElementById("btnLoginLanding").addEventListener("click", async () => {
 
-  try {
+  const isAndroid =
+    window.location.protocol === "capacitor:" ||
+    window.location.hostname === "localhost";
+
+  if (isAndroid) {
+
+    window.location.href = "https://hypertrofit.onrender.com";
+
+  } else {
 
     const result = await signInWithPopup(auth, provider);
-
     console.log("Usuario:", result.user);
-
-  } catch (error) {
-
-    console.error("Error login:", error);
 
   }
 
