@@ -732,7 +732,11 @@ const isNewPR = oneRMRounded > previousBest;
   
   const btn = document.getElementById("btnGuardar");
   btn.innerText = "✅ Guardado";
-  setTimeout(() => btn.innerText = "💾 Guardar", 1500);
+  btn.style.transform = "scale(1.05)";
+  setTimeout(() => {
+  btn.innerText = "💾 Guardar";
+  btn.style.transform = "scale(1)";
+}, 1500);
 });
 
   
@@ -858,7 +862,7 @@ function renderPR() {
 
   entrenamientos.forEach(e => {
     if (!records[e.ejercicio] || e.oneRM > records[e.ejercicio]) {
-      records[e.ejercicio] = e.oneRM || 0;
+     records[e.ejercicio] = e.oneRM ? Math.round(e.oneRM) : null;
     }
   });
 
@@ -866,7 +870,7 @@ function renderPR() {
     cont.innerHTML += `
       <div style="margin-bottom:8px">
         <b>${ej}</b><br>
-        🏆 PR estimado: <span style="color:#22c55e">${records[ej]} kg</span>
+        🏆 PR estimado: <span style="color:#22c55e">${records[ej] ? records[ej] + " kg" : "-"} kg</span>
       </div>
     `;
   }
