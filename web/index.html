@@ -497,9 +497,20 @@ canvas {
           <div id="pr-list"></div>
         </div>
 
+        <div class="card">
+           <h2>🏆 Ejercicios más fuertes</h2>
+           <div id="rankingEjercicios"></div>
+        </div>
+
         <div class="stat-card">
           🔥 Racha
           <h2 id="racha">0 días</h2>
+        </div>
+
+        <div class="stat-card">
+          ⭐ Nivel Atleta
+          <h2 id="nivelAtleta">Nivel 1</h2>
+          <p id="xpAtleta">0 XP</p>
         </div>
 
         <div class="card">
@@ -782,6 +793,9 @@ if (ultimoEjercicio) {
   });
 
 calcularRacha();
+calcularNivel();
+renderRanking();
+
 
 }
 
@@ -875,6 +889,40 @@ function renderPR() {
     `;
   }
 }
+
+function renderRanking() {
+
+  const cont = document.getElementById("rankingEjercicios");
+  cont.innerHTML = "";
+
+  const records = {};
+
+  entrenamientos.forEach(e => {
+
+    const peso = e.oneRM || 0;
+
+    if (!records[e.ejercicio] || peso > records[e.ejercicio]) {
+      records[e.ejercicio] = peso;
+    }
+
+  });
+
+  const ranking = Object.entries(records)
+    .sort((a,b) => b[1] - a[1]);
+
+  ranking.forEach((item, index) => {
+
+    cont.innerHTML += `
+      <div style="margin-bottom:8px">
+        ${index+1}️⃣ ${item[0]} — 
+        <span style="color:#22c55e">${Math.round(item[1])} kg</span>
+      </div>
+    `;
+
+  });
+
+}
+
 
 
 // PROGRESO
@@ -1130,6 +1178,20 @@ document.getElementById("quickWorkout").addEventListener("click", () => {
   document.getElementById("peso").value = ultimo.peso + 2.5;
 
 });
+
+function calcularNivel() {
+
+  const xp = entrenamientos.length * 100;
+
+  const nivel = Math.floor(xp / 500) + 1;
+
+  document.getElementById("nivelAtleta").innerText =
+    "Nivel " + nivel;
+
+  document.getElementById("xpAtleta").innerText =
+    xp + " XP";
+
+}
 
 // REGISTRAR PWA
 //if ("serviceWorker" in navigator) {
