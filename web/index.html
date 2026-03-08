@@ -368,6 +368,11 @@ canvas {
   transition:width 0.4s ease;
 }
 
+.pr-highlight{
+  color:#22c55e;
+  font-weight:bold;
+}
+
 
 
 
@@ -478,11 +483,23 @@ canvas {
       <!-- DERECHA -->
       <div>
 
+        <select id ="selectorGrafico">
+            <option value="todos">Todos</option>
+            <option value="Press Banca">Press Banca</option>
+            <option value="Sentadilla">Sentadilla</option>
+            <option value="Peso Muerto">Peso Muerto</option>
+        </select>
+
         <canvas id="grafico"></canvas>
 
         <div class="card">
           <h2>🏆 PR</h2>
           <div id="pr-list"></div>
+        </div>
+
+        <div class="stat-card">
+          🔥 Racha
+          <h2 id="racha">0 días</h2>
         </div>
 
         <div class="card">
@@ -532,6 +549,10 @@ canvas {
 
   </div>
 </div>
+
+<button id="quickWorkout">
+⚡ +2.5kg última sesión
+</button>
 
 <!-- FIREBASE + APP -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -755,6 +776,9 @@ if (ultimoEjercicio) {
   </div>
     `;
   });
+
+calcularRacha();
+
 }
 
 
@@ -768,13 +792,22 @@ function renderGrafico() {
 
   const esProUser = esPro === true;
 
-  const labels = entrenamientos.map(e => 
+  // 🔎 filtro por ejercicio
+  const filtro = document.getElementById("selectorGrafico")?.value || "todos";
+
+  const filtrados = filtro === "todos"
+    ? entrenamientos
+    : entrenamientos.filter(e => e.ejercicio === filtro);
+
+  // etiquetas del gráfico
+  const labels = filtrados.map(e =>
     new Date(e.fecha).toLocaleDateString()
   );
 
+  // datos del gráfico
   const dataValues = esProUser
-    ? entrenamientos.map(e => e.oneRM || 0)
-    : entrenamientos.map(e => e.volumen);
+    ? filtrados.map(e => e.oneRM || 0)
+    : filtrados.map(e => e.volumen);
 
   const labelText = esProUser ? "1RM Estimado" : "Volumen";
 
@@ -810,7 +843,9 @@ function renderGrafico() {
       }
     }
   });
+
 }
+
 
 
 
@@ -831,7 +866,7 @@ function renderPR() {
     cont.innerHTML += `
       <div style="margin-bottom:8px">
         <b>${ej}</b><br>
-        🧠 1RM estimado: <span style="color:#22c55e">${records[ej]} kg</span>
+        🏆 PR estimado: <span style="color:#22c55e">${records[ej]} kg</span>
       </div>
     `;
   }
@@ -1064,6 +1099,33 @@ function calcularPrediccion(ejercicio) {
 
   return Math.round(ultimo + promedioIncremento);
 }
+
+function calcularRacha() {
+
+  if (entrenamientos.length === 0) return;
+
+  const dias = new Set(
+    entrenamientos.map(e =>
+      new Date(e.fecha).toDateString()
+    )
+  );
+
+  document.getElementById("racha").innerText =
+    dias.size + " días";
+}
+
+document.getElementById("quickWorkout").addEventListener("click", () => {
+
+  const ultimo = entrenamientos[entrenamientos.length - 1];
+
+  if(!ultimo) return;
+
+  document.getElementById("ejercicio").value = ultimo.ejercicio;
+  document.getElementById("series").value = ultimo.series;
+  document.getElementById("reps").value = ultimo.reps;
+  document.getElementById("peso").value = ultimo.peso + 2.5;
+
+});
 
 // REGISTRAR PWA
 //if ("serviceWorker" in navigator) {
