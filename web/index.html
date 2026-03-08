@@ -5,6 +5,7 @@
   <title>HypertroFit PRO</title>
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#22c55e"> 
+  <link rel="stylesheet" href="styles.css?v=2">
 
   
 
@@ -33,13 +34,14 @@ body::before {
 }
 
 body.light-mode {
-  background: linear-gradient(135deg,#f1f5f9,#e2e8f0) !important;
+  background: #f1f5f9 !important;
   color: #111827;
 }
 
 body.light-mode::before {
-  display: none;
+  display: none !important;
 }
+
 
 @keyframes moveGlow {
   from {
