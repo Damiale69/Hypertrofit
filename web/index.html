@@ -1193,12 +1193,12 @@ function calcularNivel() {
 
 }
 
-// REGISTRAR PWA
-//if ("serviceWorker" in navigator) {
-  //navigator.serviceWorker.register("/sw.js")
-    //.then(() => console.log("🔥 PWA lista"))
-    //.catch(err => console.log("Error SW:", err));
-//}
+ //REGISTRAR PWA
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/sw.js")
+    .then(() => console.log("🔥 PWA lista"))
+    .catch(err => console.log("Error SW:", err));
+}
 
 
 
