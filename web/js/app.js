@@ -1,29 +1,21 @@
-import { auth } from "./firebase.js";
+import { initAuth,loginGoogle } from "./auth.js";
 import { escucharDatos } from "./entrenamientos.js";
-import { actualizarUI } from "./ui.js";
 import { renderGrafico } from "./grafico.js";
-
-import {
-GoogleAuthProvider,
-signInWithPopup,
-onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+import { actualizarUI } from "./ui.js";
 
 console.log("🔥 HypertroFit iniciado");
 
-const provider = new GoogleAuthProvider();
-
-onAuthStateChanged(auth,(user)=>{
+initAuth((user)=>{
 
  if(user){
 
   document.getElementById("landing").classList.add("hidden");
   document.getElementById("app").style.display="block";
 
-  escucharDatos((entrenamientos)=>{
+  escucharDatos(()=>{
 
-   actualizarUI(entrenamientos);
-   renderGrafico(entrenamientos);
+   actualizarUI();
+   renderGrafico();
 
   });
 
@@ -31,10 +23,6 @@ onAuthStateChanged(auth,(user)=>{
 
 });
 
-document.getElementById("btnLoginLanding").addEventListener("click",async()=>{
-
- const result = await signInWithPopup(auth,provider);
-
- console.log(result.user);
-
-});
+document
+.getElementById("btnLoginLanding")
+.addEventListener("click",loginGoogle);
