@@ -1,11 +1,12 @@
 import { db,auth } from "./firebase.js";
 import { store } from "./store.js";
+import { playSuccessSound } from "./utils.js";
 
 import {
-collection,
-addDoc,
-onSnapshot,
-serverTimestamp
+ collection,
+ addDoc,
+ onSnapshot,
+ serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
 
 export function escucharDatos(callback){
@@ -29,9 +30,6 @@ export function escucharDatos(callback){
  });
 
 }
-
-import { playSuccessSound } from "./utils.js";
-import { store } from "./store.js";
 
 export async function guardarEntrenamiento(data){
 
@@ -65,4 +63,5 @@ export async function guardarEntrenamiento(data){
  }
 
 }
+
 

@@ -1,18 +1,27 @@
 import { initAuth,loginGoogle } from "./auth.js";
 import { escucharDatos } from "./entrenamientos.js";
 import { renderGrafico } from "./grafico.js";
-import { actualizarUI } from "./ui.js";
+import { actualizarUI, initSplash,initTheme } from "./ui.js";
+import { store } from "./store.js";
+import { verificarPro } from "./firebase.js";
 
 console.log("🔥 HypertroFit iniciado");
 
-initAuth((user)=>{
+initSplash();
+initTheme();
+
+initAuth(async (user)=>{
 
  if(user){
+
+  await verificarPro(user);
 
   document.getElementById("landing").classList.add("hidden");
   document.getElementById("app").style.display="block";
 
-  escucharDatos(()=>{
+  escucharDatos((data)=>{
+
+   store.setEntrenamientos(data);
 
    actualizarUI();
    renderGrafico();
