@@ -90,9 +90,10 @@ app.post("/webhook", async (req, res) => {
 
     console.log("📊 ESTADO SUSCRIPCION:", sub.body.status);
 
-    if (sub.body.status === "authorized") {
+    const uid = sub.body.external_reference;
 
-      const uid = sub.body.external_reference;
+    // 💎 SUSCRIPCIÓN ACTIVA
+    if (sub.body.status === "authorized") {
 
       await db.collection("usuarios").doc(uid).set({
         pro: true,
@@ -102,37 +103,25 @@ app.post("/webhook", async (req, res) => {
       console.log("💎 PRO ACTIVADO:", uid);
     }
 
+    // ❌ SUSCRIPCIÓN CANCELADA
+    if (sub.body.status === "cancelled") {
+
+      await db.collection("usuarios").doc(uid).set({
+        pro: false
+      }, { merge: true });
+
+      console.log("🚫 PRO DESACTIVADO:", uid);
+    }
+
     res.sendStatus(200);
 
   } catch (err) {
+
     console.error("❌ ERROR WEBHOOK:", err);
+
     res.sendStatus(500);
+
   }
+
 });
 
-
-// SERVIR FRONTEND
-app.use(express.static(path.join(__dirname, "web")));
-
-app.get("/sw.js", (req, res) => {
-  res.sendFile(path.join(__dirname, "web", "sw.js"));
-});
-
-app.get("/icon-192.png", (req, res) => {
-  res.sendFile(path.join(__dirname, "web", "icon-192.png"));
-});
-
-app.get("/icon-512.png", (req, res) => {
-  res.sendFile(path.join(__dirname, "web", "icon-512.png"));
-});
-
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "web", "index.html"));
-});
-
-
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-  console.log("🚀 Server listo en puerto " + PORT);
-});

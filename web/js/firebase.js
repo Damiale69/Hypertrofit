@@ -33,9 +33,19 @@ export async function verificarPro(user){
  const snap = await getDoc(ref);
 
  if(snap.exists()){
-  store.setPro(snap.data().pro === true);
+
+  const data = snap.data();
+
+  const activo =
+   data.pro === true &&
+   (!data.pro_expira || new Date(data.pro_expira) > new Date());
+
+  store.setPro(activo);
+
  }else{
+
   store.setPro(false);
+
  }
 
 }
