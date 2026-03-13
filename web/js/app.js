@@ -7,6 +7,7 @@ import { verificarPro } from "./firebase.js";
 import { initAITrainer } from "./aiTrainer.js";
 import { guardarEntrenamiento } from "./entrenamientos.js";
 import { showToast } from "./utils.js";
+import { cargarRankingGlobal } from "./ui.js";
 
 window.store = store
 
@@ -16,6 +17,7 @@ console.log("🔥 HypertroFit iniciado");
 initSplash();
 initTheme();
 initAITrainer();
+cargarRankingGlobal();
 
 
 
@@ -126,3 +128,31 @@ document
 document
 .getElementById("btnLoginLanding")
 .addEventListener("click",loginGoogle);
+
+document
+.getElementById("sharePR")
+.addEventListener("click", compartirPR);
+
+function compartirPR(){
+
+ const record =
+ Math.max(...store.entrenamientos.map(e=>e.peso));
+
+ const texto =
+ `🏆 Nuevo PR en HypertroFit!\n${record} kg 💪`;
+
+ if(navigator.share){
+
+  navigator.share({
+   title:"HypertroFit",
+   text:texto,
+   url:window.location.href
+  });
+
+ }else{
+
+  alert(texto);
+
+ }
+
+}

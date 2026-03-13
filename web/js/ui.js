@@ -1,6 +1,8 @@
 import { store } from "./store.js";
 import { calcularPrediccion } from "./utils.js";
 import { calcularRankingEjercicios } from "./utils.js";
+import { db } from "./firebase.js";
+import {collection,query,orderBy,limit,getDocs} from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
 
 export function actualizarUI(){
 
@@ -355,5 +357,34 @@ window.irASuscripcion = async function(){
   console.error("ERROR SUSCRIPCIÓN:",err);
 
  }
+
+}
+
+
+export async function cargarRankingGlobal(){
+
+ const contRanking = document.getElementById("rankingGlobal");
+
+ if(!contRanking) return;
+
+ contRanking.innerHTML="";
+
+ const q = query(
+  collection(db,"ranking"),
+  orderBy("max1RM","desc"),
+  limit(10)
+ );
+
+ const snap = await getDocs(q);
+
+ snap.forEach(doc=>{
+
+  contRanking.innerHTML += `
+   <div>
+    🏆 ${doc.data().nombre} — ${doc.data().max1RM}kg
+   </div>
+  `;
+
+ });
 
 }

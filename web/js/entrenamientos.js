@@ -1,6 +1,7 @@
 import { db,auth } from "./firebase.js";
 import { store } from "./store.js";
 import { playSuccessSound, showToast } from "./utils.js";
+import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
 
 
 import {
@@ -64,6 +65,17 @@ if(isNewPR){
  playSuccessSound();
 
  showToast("🏆 Nuevo PR!");
+
+ const max1RM = oneRMRounded;
+
+ await setDoc(
+  doc(db,"ranking",user.uid),
+  {
+   nombre:user.displayName,
+   max1RM:max1RM
+  },
+  {merge:true}
+ );
 
 }
 
