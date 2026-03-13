@@ -29,23 +29,50 @@ setPersistence(auth, browserLocalPersistence)
 
 export async function verificarPro(user){
 
- const ref = doc(db,"usuarios",user.uid);
- const snap = await getDoc(ref);
+ try{
 
- if(snap.exists()){
+  const ref = doc(db,"usuarios",user.uid);
+  const snap = await getDoc(ref);
+
+  if(!snap.exists()){
+   store.setPro(false);
+   console.log("Usuario sin documento");
+   return;
+  }
 
   const data = snap.data();
 
-  const activo =
-   data.pro === true &&
-   (!data.pro_expira || new Date(data.pro_expira) > new Date());
+  let activo = false;
+
+  if(data.pro === true){
+
+   if(data.pro_expira){
+
+    const fechaExpira =
+     data.pro_expira.toDate
+     ? data.pro_expira.toDate()
+     : new Date(data.pro_expira);
+
+    activo = fechaExpira > new Date();
+
+   }else{
+
+    activo = true;
+
+   }
+
+  }
 
   store.setPro(activo);
 
- }else{
+  console.log("💎 PRO:",activo);
+  console.log("Firestore data:",data);
 
-  store.setPro(false);
+ }catch(err){
+
+  console.error("Error verificando PRO:",err);
 
  }
 
 }
+

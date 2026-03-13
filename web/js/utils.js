@@ -40,3 +40,39 @@ export function playSuccessSound(){
  oscillator.stop(audioCtx.currentTime+0.25);
 
 }
+
+export function showToast(text){
+
+ const toast=document.getElementById("toast");
+
+ toast.innerText=text;
+
+ toast.classList.remove("hidden");
+ toast.classList.add("show");
+
+ setTimeout(()=>{
+
+  toast.classList.remove("show");
+
+ },2000);
+
+}
+
+
+export function calcularRankingEjercicios(entrenamientos){
+
+ const ranking = {};
+
+ entrenamientos.forEach(e=>{
+
+  const actual = ranking[e.ejercicio] || 0;
+
+  if((e.oneRM || 0) > actual){
+   ranking[e.ejercicio] = e.oneRM;
+  }
+
+ });
+
+ return ranking;
+
+}

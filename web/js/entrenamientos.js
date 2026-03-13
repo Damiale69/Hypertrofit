@@ -1,6 +1,7 @@
 import { db,auth } from "./firebase.js";
 import { store } from "./store.js";
-import { playSuccessSound } from "./utils.js";
+import { playSuccessSound, showToast } from "./utils.js";
+
 
 import {
  collection,
@@ -58,9 +59,13 @@ export async function guardarEntrenamiento(data){
   }
  );
 
- if(isNewPR){
-  playSuccessSound();
- }
+if(isNewPR){
+
+ playSuccessSound();
+
+ showToast("🏆 Nuevo PR!");
+
+}
 
 }
 

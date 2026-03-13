@@ -1,5 +1,6 @@
 import { store } from "./store.js";
 import { calcularPrediccion } from "./utils.js";
+import { calcularRankingEjercicios } from "./utils.js";
 
 export function actualizarUI(){
 
@@ -27,6 +28,29 @@ export function actualizarUI(){
 
  }
 
+const ranking = calcularRankingEjercicios(entrenamientos);
+
+const contRanking = document.getElementById("rankingEjercicios");
+
+if(contRanking){
+
+ contRanking.innerHTML = "";
+
+ Object.entries(ranking)
+ .sort((a,b)=>b[1]-a[1])
+ .forEach(([ejercicio,peso])=>{
+
+  contRanking.innerHTML += `
+   <div>
+    🏆 ${ejercicio} — ${peso} kg
+   </div>
+  `;
+
+ });
+
+}
+
+
  const cont = document.getElementById("historial");
  cont.innerHTML = "";
 
@@ -35,7 +59,7 @@ export function actualizarUI(){
   cont.innerHTML += `
   <div class="card">
    🔥 ${e.ejercicio}<br>
-   ${e.series}x${e.reps} → ${e.peso + 2.5}kg
+   ${e.series}x${e.reps} → ${e.peso}kg
   </div>
   `;
 
@@ -44,6 +68,28 @@ export function actualizarUI(){
  calcularRacha();
  calcularNivel();
  renderRanking();
+
+
+ // 💎 ocultar botón PRO si ya es PRO
+ if(store.esPro){
+
+  const btn = document.getElementById("btnPro");
+
+  if(btn){
+   btn.style.display = "none";
+  }
+
+ }
+
+}
+
+if(store.esPro){
+
+ const paywall = document.getElementById("paywall");
+
+ if(paywall){
+  paywall.classList.add("hidden");
+ }
 
 }
 
@@ -262,5 +308,52 @@ export function initSplash(){
   },1200);
 
  });
+
+}
+
+// cerrar paywall
+window.cerrarPaywall = function(){
+
+ document
+  .getElementById("paywall")
+  .classList.add("hidden");
+
+}
+
+
+window.irASuscripcion = async function(){
+
+ const user = store.user;
+
+ try{
+
+  const res = await fetch(
+   "https://hypertrofit.onrender.com/crear-suscripcion",
+   {
+    method:"POST",
+    headers:{
+     "Content-Type":"application/json"
+    },
+    body:JSON.stringify({
+     uid:user.uid,
+     email:user.email
+    })
+   }
+  );
+
+  const data = await res.json();
+
+  if(!data.init_point){
+   alert("Error creando suscripción");
+   return;
+  }
+
+  window.location.href = data.init_point;
+
+ }catch(err){
+
+  console.error("ERROR SUSCRIPCIÓN:",err);
+
+ }
 
 }

@@ -130,6 +130,11 @@
         <canvas id="grafico"></canvas>
 
         <div class="card">
+          <h3>📈 Predicción próxima marca</h3>
+          <p id="prediccion"></p>
+        </div>
+
+        <div class="card">
           <h2>🏆 PR</h2>
           <div id="pr-list"></div>
         </div>
@@ -180,27 +185,39 @@
 
 <!-- PAYWALL -->
 <div id="paywall" class="paywall hidden">
-  <div class="paywall-content">
 
-    <h2>💎 HypertroFit PRO</h2>
-    <p>Desbloqueá todo tu potencial</p>
+ <div class="paywall-content">
 
-    <ul>
-      <li>🔥 Rutinas inteligentes</li>
-      <li>📈 Progreso avanzado</li>
-      <li>🏆 Seguimiento de PR</li>
-      <li>☁️ Guardado en la nube</li>
-    </ul>
+  <h2>💎 HypertroFit PRO</h2>
 
-    <button onclick="irASuscripcion()">Activar PRO</button>
-    <button class="close" onclick="cerrarPaywall()">Cancelar</button>
+  <p>Desbloqueá todo tu potencial</p>
 
-  </div>
+  <ul>
+   <li>🧠 AI Trainer automático</li>
+   <li>🔥 Rutinas inteligentes</li>
+   <li>📈 Predicción de PR</li>
+   <li>☁️ Guardado en la nube</li>
+  </ul>
+
+  <button onclick="irASuscripcion()">
+   Activar PRO
+  </button>
+
+  <button class="close" onclick="cerrarPaywall()">
+   Cancelar
+  </button>
+
+ </div>
+
 </div>
+
 
 <button id="quickWorkout">
 ⚡ +2.5kg última sesión
 </button>
+
+
+<div id="toast" class="toast hidden"></div>
 
 
 
