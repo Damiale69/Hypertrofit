@@ -71,7 +71,6 @@ app.post("/crear-suscripcion", async (req, res) => {
 
 
 
-// 🔥 WEBHOOK
 app.post("/webhook", async (req, res) => {
 
   try {
@@ -80,48 +79,63 @@ app.post("/webhook", async (req, res) => {
 
     console.log("📩 WEBHOOK RECIBIDO:", data);
 
-    const id = data.data?.id;
+    // 🔹 1. SUSCRIPCIONES (preapproval)
+    if (data.type === "preapproval") {
 
-    if (!id) {
-      return res.sendStatus(200);
+      const id = data.data?.id;
+
+      if (!id) return res.sendStatus(200);
+
+      const sub = await mercadopago.preapproval.get(id);
+
+      const uid = sub.body.external_reference;
+
+      console.log("📊 SUSCRIPCION:", sub.body.status);
+
+      if (sub.body.status === "authorized") {
+
+        await db.collection("usuarios").doc(uid).set({
+          pro: true,
+          pro_expira: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+        }, { merge: true });
+
+        console.log("💎 PRO ACTIVADO:", uid);
+      }
+
+      if (sub.body.status === "cancelled") {
+
+        await db.collection("usuarios").doc(uid).set({
+          pro: false
+        }, { merge: true });
+
+        console.log("🚫 PRO DESACTIVADO:", uid);
+      }
     }
 
-    const sub = await mercadopago.preapproval.get(id);
+    // 🔹 2. PAGOS (por si usás checkout normal)
+    if (data.type === "payment") {
 
-    console.log("📊 ESTADO SUSCRIPCION:", sub.body.status);
+      const paymentId = data.data?.id;
 
-    const uid = sub.body.external_reference;
+      if (!paymentId) return res.sendStatus(200);
 
-    // 💎 SUSCRIPCIÓN ACTIVA
-    if (sub.body.status === "authorized") {
+      const payment = await mercadopago.payment.findById(paymentId);
 
-      await db.collection("usuarios").doc(uid).set({
-        pro: true,
-        pro_expira: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
-      }, { merge: true });
+      console.log("💰 PAGO:", payment.body.status);
 
-      console.log("💎 PRO ACTIVADO:", uid);
+      // Opcional: activar PRO si querés manejar pagos simples
     }
 
-    // ❌ SUSCRIPCIÓN CANCELADA
-    if (sub.body.status === "cancelled") {
-
-      await db.collection("usuarios").doc(uid).set({
-        pro: false
-      }, { merge: true });
-
-      console.log("🚫 PRO DESACTIVADO:", uid);
-    }
-
+    // 🔥 SIEMPRE responder OK
     res.sendStatus(200);
 
   } catch (err) {
 
     console.error("❌ ERROR WEBHOOK:", err);
 
-    res.sendStatus(500);
+    // ⚠️ IMPORTANTE: devolver 200 igual
+    res.sendStatus(200);
 
   }
 
 });
-
